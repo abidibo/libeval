@@ -20,7 +20,7 @@ void ShuntingYard::addNode(stack<NodePtr>& stack, string op)
     {
         NodePtr leftChild = stack.top();
         stack.pop();
-        stack.push(make_shared<OperatorNode>(op, leftChild, nullptr, leftChild->getDepth() + 1));
+        stack.push(make_shared<OperatorNode>(operatorsMap[op], leftChild, nullptr, leftChild->getDepth() + 1));
     }
     else
     {
@@ -29,7 +29,7 @@ void ShuntingYard::addNode(stack<NodePtr>& stack, string op)
         NodePtr leftChild = stack.top();
         stack.pop();
         int depth = max(rightChild->getDepth(), leftChild->getDepth()) + 1;
-        stack.push(make_shared<OperatorNode>(op, leftChild, rightChild, depth));
+        stack.push(make_shared<OperatorNode>(operatorsMap[op], leftChild, rightChild, depth));
     }
 }
 

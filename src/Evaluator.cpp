@@ -27,6 +27,9 @@ bool Evaluator::exec(std::string& expression,  std::map<std::string, std::string
     // @TODO configure tokenizer with same operators:
     // dynamically create the regex
     vector<OperatorPtr> operators;
+    // @TODO pass calc value implementation in operators, in order to have
+    // opeators nodes agnostic about calculation and just depending
+    // on the passed operator
     operators.push_back(std::make_shared<Operator>("&&", false, 1, false));
     operators.push_back(std::make_shared<Operator>("||", false, 1, false));
     operators.push_back(std::make_shared<Operator>("<", false, 2, false));
