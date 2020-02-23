@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "ShuntingYard.h"
 #include "Exceptions.h"
 #include "OperatorNode.h"
@@ -19,7 +20,7 @@ void ShuntingYard::addNode(stack<NodePtr>& stack, string op)
     {
         NodePtr leftChild = stack.top();
         stack.pop();
-        stack.push(make_shared<OperatorNode>(op, leftChild, nullptr));
+        stack.push(make_shared<OperatorNode>(op, leftChild, nullptr, leftChild->getDepth() + 1));
     }
     else
     {
@@ -27,7 +28,8 @@ void ShuntingYard::addNode(stack<NodePtr>& stack, string op)
         stack.pop();
         NodePtr leftChild = stack.top();
         stack.pop();
-        stack.push(make_shared<OperatorNode>(op, leftChild, rightChild));
+        int depth = max(rightChild->getDepth(), leftChild->getDepth()) + 1;
+        stack.push(make_shared<OperatorNode>(op, leftChild, rightChild, depth));
     }
 }
 
@@ -93,7 +95,7 @@ NodePtr ShuntingYard::infixToTree(vector<string> infix)
         }
         else
         {
-            operandStack.push(make_shared<OperandNode>(token, nullptr, nullptr)) ;
+            operandStack.push(make_shared<OperandNode>(token, nullptr, nullptr, 1)) ;
         }
     }
 

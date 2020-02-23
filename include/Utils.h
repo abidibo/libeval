@@ -62,7 +62,7 @@ inline void printTree(NodePtr root, Trunk *prev, bool isLeft)
     }
 
     showTrunks(trunk);
-    cout << root->getSymbol() << endl;
+    cout << root->getSymbol() << " " << root->getDepth() << endl;
 
     if (prev)
         prev->str = prev_str;
