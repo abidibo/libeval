@@ -1,14 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(eval)
-set(SOURCES ${PROJECT_SOURCE_DIR}/src/main.cpp
-            ${PROJECT_SOURCE_DIR}/src/Evaluator.cpp
-            ${PROJECT_SOURCE_DIR}/src/Tokenizer.cpp
-            ${PROJECT_SOURCE_DIR}/src/Node.cpp
-            ${PROJECT_SOURCE_DIR}/src/OperatorNode.cpp
-            ${PROJECT_SOURCE_DIR}/src/OperandNode.cpp
-            ${PROJECT_SOURCE_DIR}/src/Operator.cpp
-            ${PROJECT_SOURCE_DIR}/src/ShuntingYard.cpp
-)
+set(SOURCES ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
 add_executable(eval ${SOURCES})

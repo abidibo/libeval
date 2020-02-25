@@ -9,21 +9,51 @@ using NodePtr = std::shared_ptr<Node>;
 
 class Node : public std::enable_shared_from_this<Node>
 {
-    public:
-        Node(std::string symbol, int depth);
-        Node(std::string symbol, NodePtr child, int depth);
-        Node(std::string symbol, NodePtr leftChild, NodePtr rightChild, int depth);
-        std::string getSymbol();
-        int getDepth();
-        NodePtr getParent();
-        NodePtr getLeftChild();
-        NodePtr getRightChild();
-    protected:
-        std::string symbol;
-        int depth;
-        NodePtr parent;
-        NodePtr leftChild;
-        NodePtr rightChild;
+public:
+    Node(std::string symbol, int depth)
+    {
+        this->symbol = symbol;
+        this->depth = depth;
+    }
+    Node(std::string symbol, NodePtr child, int depth)
+    {
+        this->symbol = symbol;
+        this->leftChild = child;
+        this->depth = depth;
+    }
+    Node(std::string symbol, NodePtr leftChild, NodePtr rightChild, int depth)
+    {
+        this->symbol = symbol;
+        this->leftChild = leftChild;
+        this->rightChild = rightChild;
+        this->depth = depth;
+    }
+    std::string getSymbol()
+    {
+        return symbol;
+    }
+    int getDepth()
+    {
+        return depth;
+    }
+    NodePtr getParent()
+    {
+        return parent;
+    }
+    NodePtr getLeftChild()
+    {
+        return leftChild;
+    }
+    NodePtr getRightChild()
+    {
+        return rightChild;
+    }
+protected:
+    std::string symbol;
+    int depth;
+    NodePtr parent;
+    NodePtr leftChild;
+    NodePtr rightChild;
 };
 
 #endif /* INCLUDE_NODE_H_ */
