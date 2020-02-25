@@ -5,10 +5,8 @@
 #include <string>
 #include "Node.h"
 
-using namespace std;
-
 #ifdef DEBUG_BUILD
-#  define DEBUG(x) cerr << x << endl
+#  define DEBUG(x) std::cerr << x << std::endl
 #else
 #  define DEBUG(x) do {} while (0)
 #endif
@@ -16,9 +14,9 @@ using namespace std;
 struct Trunk
 {
     Trunk *prev;
-    string str;
+    std::string str;
 
-    Trunk(Trunk *prev, string str)
+    Trunk(Trunk *prev, std::string str)
     {
         this->prev = prev;
         this->str = str;
@@ -33,7 +31,7 @@ inline void showTrunks(Trunk *p)
 
     showTrunks(p->prev);
 
-    cout << p->str;
+    std::cout << p->str;
 }
 
 // Recursive function to print binary tree
@@ -43,7 +41,7 @@ inline void printTree(NodePtr root, Trunk *prev, bool isLeft)
     if (root == nullptr)
         return;
     
-    string prev_str = "    ";
+    std::string prev_str = "    ";
     Trunk *trunk = new Trunk(prev, prev_str);
 
     printTree(root->getLeftChild(), trunk, true);
@@ -62,7 +60,7 @@ inline void printTree(NodePtr root, Trunk *prev, bool isLeft)
     }
 
     showTrunks(trunk);
-    cout << root->getSymbol() << " " << root->getDepth() << endl;
+    std::cout << root->getSymbol() << " " << root->getDepth() << std::endl;
 
     if (prev)
         prev->str = prev_str;

@@ -17,7 +17,7 @@ public:
     {
         // Let's tokenize the expression, get a vector of ordered tokens
         Tokenizer tokenizer{};
-        vector<string>tokens;
+        std::vector<std::string>tokens;
         tokenizer.tokenize(expression, tokens);
 
         #ifdef DEBUG_BUILD
@@ -30,7 +30,7 @@ public:
         // configure operators for shunting yard algorithm
         // @TODO configure tokenizer with same operators:
         // dynamically create the regex
-        vector<OperatorPtr> operators;
+        std::vector<OperatorPtr> operators;
         // @TODO pass calc value implementation in operators, in order to have
         // opeators nodes agnostic about calculation and just depending
         // on the passed operator

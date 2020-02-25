@@ -1,6 +1,7 @@
 #ifndef INCLUDE_SHUNTINGYARD_H_
 #define INCLUDE_SHUNTINGYARD_H_
 
+#include <algorithm>
 #include <vector>
 #include <memory>
 #include <unordered_map>
@@ -24,11 +25,11 @@ public:
     }
     NodePtr infixToTree(std::vector<std::string> infix)
     {
-        stack<string> operatorStack;
-        stack<NodePtr> operandStack;
+        std::stack<std::string> operatorStack;
+        std::stack<NodePtr> operandStack;
         for (auto token: infix)
         {
-            string popped;
+            std::string popped;
             if (token == "(")
             {
                 operatorStack.push(token);
@@ -79,7 +80,7 @@ public:
             }
             else
             {
-                operandStack.push(make_shared<OperandNode>(token, nullptr, nullptr, 1)) ;
+                operandStack.push(std::make_shared<OperandNode>(token, nullptr, nullptr, 1)) ;
             }
         }
 
@@ -100,7 +101,7 @@ private:
         {
             NodePtr leftChild = stack.top();
             stack.pop();
-            stack.push(make_shared<OperatorNode>(operatorsMap[op], leftChild, nullptr, leftChild->getDepth() + 1));
+            stack.push(std::make_shared<OperatorNode>(operatorsMap[op], leftChild, nullptr, leftChild->getDepth() + 1));
         }
         else
         {
@@ -108,8 +109,8 @@ private:
             stack.pop();
             NodePtr leftChild = stack.top();
             stack.pop();
-            int depth = max(rightChild->getDepth(), leftChild->getDepth()) + 1;
-            stack.push(make_shared<OperatorNode>(operatorsMap[op], leftChild, rightChild, depth));
+            int depth = std::max(rightChild->getDepth(), leftChild->getDepth()) + 1;
+            stack.push(std::make_shared<OperatorNode>(operatorsMap[op], leftChild, rightChild, depth));
         }
     }
     bool isOperator(std::string str)
