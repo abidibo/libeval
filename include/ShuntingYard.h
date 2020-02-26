@@ -54,7 +54,7 @@ public:
                 if (err)
                 {
                     DEBUG("Unbalanced right parantheses");
-                    throw invalid_expression();
+                    throw InvalidExpression();
                 }
             }
             else if (isOperator(token))

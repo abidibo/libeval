@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include "Exceptions.h"
 
 class Operator;
 using OperatorPtr = std::shared_ptr<Operator>;
@@ -10,36 +11,153 @@ using OperatorPtr = std::shared_ptr<Operator>;
 class Operator
 {
 public:
-    Operator(std::string symbol, bool rightAssociative, short precedence, bool unary)
+    enum class Type
     {
-        this->symbol = symbol;
-        this->rightAssociative = rightAssociative;
-        this->precedence = precedence;
-        this->unary = unary;
-    }
+        AND,
+        OR,
+        EQ,
+        GT,
+        GTE,
+        LT,
+        LTE,
+        NOT
+    };
+    Operator(Type type)
+    {
+        this->type = type;
+        rightAssociative = false;
+        unary = false;
+        precedence = 1;
+        switch (this->type)
+        {
+            case Type::AND:
+                symbol = "&&";
+                break;
+            case Type::OR:
+                symbol = "||";
+                break;
+            case Type::EQ:
+                symbol = "==";
+                precedence = 2;
+                break;
+            case Type::GT:
+                symbol = ">";
+                precedence = 2;
+                break;
+            case Type::GTE:
+                symbol = ">=";
+                precedence = 2;
+                break;
+            case Type::LT:
+                symbol = "<";
+                precedence = 2;
+                break;
+            case Type::LTE:
+                symbol = "<=";
+                precedence = 2;
+                break;
+            case Type::NOT:
+                symbol = "!";
+                precedence = 3;
+                unary = true;
+                break;
+            default:
+                throw InvalidOperation();
+        }
+    };
+
     std::string getSymbol()
     {
         return symbol;
-    }
+    };
+
     bool isUnary()
     {
         return unary;
-    }
+    };
+
     bool isRightAssociative()
     {
         return rightAssociative;
-    }
+    };
+
     int getPrecedence()
     {
         return precedence;
-    }
+    };
+
     short comparePrecendence(OperatorPtr op2)
     {
         return precedence > op2->getPrecedence()
             ? 1
             : (precedence == op2->getPrecedence() ? 0 : -1);
-    }
+    };
+
+    template<class R, class P1, class P2>
+    R calc(P1 in1, P2 in2)
+    {
+        switch (this->type)
+        {
+            case Type::AND:
+                return in1 && in2;
+            case Type::OR:
+                return in1 or in2;
+            case Type::EQ:
+                return in1 == in2;
+            case Type::GT:
+                return in1 > in2;
+            case Type::GTE:
+                return in1 >= in2;
+            case Type::LT:
+                return in1 < in2;
+            case Type::LTE:
+                return in1 <= in2;
+            case Type::NOT:
+            default:
+                throw InvalidOperation();
+        };
+    };
+
+    template<class R, class P>
+    R calc(P in)
+    {
+        switch (this->type)
+        {
+            case Type::NOT:
+                return !in;
+            case Type::AND:
+            case Type::OR:
+            case Type::EQ:
+            case Type::GT:
+            case Type::GTE:
+            case Type::LT:
+            case Type::LTE:
+            default:
+                throw InvalidOperation();
+        };
+    };
+
+    std::string quotedSymbol()
+    {
+        switch (this->type)
+        {
+            case Type::AND:
+            case Type::EQ:
+            case Type::GT:
+            case Type::GTE:
+            case Type::LT:
+            case Type::LTE:
+                return symbol;
+            case Type::OR:
+                return "\\|\\|";
+            case Type::NOT:
+                return "\\!";
+            default:
+                throw InvalidOperation();
+        };
+    };
 private:
+    Type type;
     std::string symbol;
     bool rightAssociative;
     int precedence;

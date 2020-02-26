@@ -4,16 +4,26 @@
 #include <string>
 #include <vector>
 #include <regex>
+#include "Operator.h"
 
 class Tokenizer
 {
 public:
-    int tokenize(const std::string& infix, std::vector<std::string>& tokens)
+    int tokenize(const std::string& infix, std::vector<OperatorPtr> operators, std::vector<std::string>& tokens)
     {
-        // var name: [a-zA-Z][a-zA-Z0-9]*
-        // int or double: [0-9]?([0-9]*[.])?[0-9]+
-        // AND, OR, ==, <=, <=, NOT, (, )
-        std::regex words_regex("[a-zA-Z][a-zA-Z0-9]*|[0-9]?([0-9]*[.])?[0-9]+|&&|\\|\\||==|<=|>=|[<>\\!\\(\\)]"); 
+        // std::regex words_regex("[a-zA-Z][a-zA-Z0-9]*|[0-9]?([0-9]*[.])?[0-9]+|&&|\\|\\||==|<=|>=|[<>\\!\\(\\)]"); 
+        std::string re;
+        re += "[a-zA-Z][a-zA-Z0-9]*"; // variable
+        re += "|"; // or
+        re += "[0-9]?([0-9]*[.])?[0-9]+"; // double or int
+        re += "|"; // or
+        re += "[//(//)]"; // open or close parenthesis
+        for (auto op: operators)
+        {
+            re += "|"; // or
+            re += op->quotedSymbol(); // all operators
+        }
+        std::regex words_regex(re); 
         auto words_begin = std::sregex_iterator(infix.begin(), infix.end(), words_regex);
         auto words_end = std::sregex_iterator();
 

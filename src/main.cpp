@@ -27,7 +27,8 @@ int main(int argc, char **argv) {
     m["v3"] = "-15.000000001";
     m["v4"] = "true";
     m["v5"] = "false";
-    bool testCorrect = !eval.exec(e3, m);
+    eval.compile(e3);
+    eval(m);
     // bool testCorrect = 
     //     (eval.exec(e1, m) &&
     //      eval.exec(e2, m) && 
@@ -36,5 +37,5 @@ int main(int argc, char **argv) {
     //      eval.exec(e5, m) && 
     //      eval.exec(e6, m) &&
 	//  eval.exec(e7, m));
-    std::cout << (testCorrect ? "Good job!" : "Uhm, please retry!") << std::endl;
+    // std::cout << (testCorrect ? "Good job!" : "Uhm, please retry!") << std::endl;
 }
