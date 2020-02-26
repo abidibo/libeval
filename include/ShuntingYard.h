@@ -9,6 +9,7 @@
 #include "Exceptions.h"
 #include "Utils.h"
 #include "Operator.h"
+#include "Operand.h"
 #include "Node.h"
 #include "OperatorNode.h"
 #include "OperandNode.h"
@@ -80,7 +81,8 @@ public:
             }
             else
             {
-                operandStack.push(std::make_shared<OperandNode>(token, nullptr, nullptr, 1)) ;
+                OperandPtr operand = std::make_shared<Operand>(token);
+                operandStack.push(std::make_shared<OperandNode>(operand, 1));
             }
         }
 

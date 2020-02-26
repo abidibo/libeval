@@ -9,6 +9,7 @@
 #include "Tokenizer.h"
 #include "ShuntingYard.h"
 #include "Operator.h"
+#include "Config.h"
 
 class Evaluator
 {
@@ -23,21 +24,10 @@ public:
     {
         try
         {
-            // configure considered operators
-            std::vector<OperatorPtr> operators;
-            operators.push_back(std::make_shared<Operator>(Operator::Type::AND));
-            operators.push_back(std::make_shared<Operator>(Operator::Type::OR));
-            operators.push_back(std::make_shared<Operator>(Operator::Type::EQ));
-            operators.push_back(std::make_shared<Operator>(Operator::Type::LT));
-            operators.push_back(std::make_shared<Operator>(Operator::Type::LTE));
-            operators.push_back(std::make_shared<Operator>(Operator::Type::GT));
-            operators.push_back(std::make_shared<Operator>(Operator::Type::GTE));
-            operators.push_back(std::make_shared<Operator>(Operator::Type::NOT));
-
-            // let's tokenize the expression, get a vector of ordered tokens
+            // tokenize the expression, get a vector of ordered tokens
             Tokenizer tokenizer{};
             std::vector<std::string>tokens;
-            tokenizer.tokenize(expression, operators, tokens);
+            tokenizer.tokenize(expression, Config::operators, tokens);
 
             DEBUG("Expression: " << expression << std::endl);
             #ifdef DEBUG_BUILD
@@ -47,12 +37,12 @@ public:
                 }
             #endif
             
-            // let's create the tree
-            ShuntingYard shuntingYard(operators);
-            NodePtr root = shuntingYard.infixToTree(tokens);
+            // build the tree
+            ShuntingYard shuntingYard(Config::operators);
+            tree = shuntingYard.infixToTree(tokens);
             DEBUG("\nTree\n");
-            DEBUG("Root: " << root->getSymbol());
-            printTree(root, nullptr, false);
+            DEBUG("Root: " << tree->getSymbol());
+            printTree(tree, nullptr, false);
             return 0;
         }
         catch(const std::exception& e)
@@ -70,6 +60,8 @@ public:
     {
         DEBUG("Evaluating");
     }
+private:
+    NodePtr tree;
 };
 
 #endif /* INCLUDE_EVALUATOR_H_ */

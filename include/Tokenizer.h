@@ -5,6 +5,7 @@
 #include <vector>
 #include <regex>
 #include "Operator.h"
+#include "Config.h"
 
 class Tokenizer
 {
@@ -13,9 +14,9 @@ public:
     {
         // std::regex words_regex("[a-zA-Z][a-zA-Z0-9]*|[0-9]?([0-9]*[.])?[0-9]+|&&|\\|\\||==|<=|>=|[<>\\!\\(\\)]"); 
         std::string re;
-        re += "[a-zA-Z][a-zA-Z0-9]*"; // variable
+        re += Config::varReString;
         re += "|"; // or
-        re += "[0-9]?([0-9]*[.])?[0-9]+"; // double or int
+        re += Config::numReString;
         re += "|"; // or
         re += "[//(//)]"; // open or close parenthesis
         for (auto op: operators)

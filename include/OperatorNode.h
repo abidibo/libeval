@@ -11,6 +11,7 @@ class OperatorNode : public Node
         {
             this->op = op;
         }
+
         OperatorNode(OperatorPtr op, NodePtr child, int depth) : Node(op->getSymbol(), child, depth)
         {
             this->op = op;
