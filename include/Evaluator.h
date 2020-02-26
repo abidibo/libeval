@@ -39,10 +39,19 @@ public:
             
             // build the tree
             ShuntingYard shuntingYard(Config::operators);
-            tree = shuntingYard.infixToTree(tokens);
+            std::map<std::string, std::vector<NodePtr>> deps;
+            tree = shuntingYard.infixToTree(tokens, deps);
             DEBUG("\nTree\n");
             DEBUG("Root: " << tree->getSymbol());
             printTree(tree, nullptr, false);
+            DEBUG("\nDependencies\n");
+            for (auto v: deps)
+            {
+                DEBUG(v.first);
+                for (auto n: v.second) {
+                    DEBUG("\t" << n);
+                }
+            }
             return 0;
         }
         catch(const std::exception& e)

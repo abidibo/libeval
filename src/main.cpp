@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
     std::string e1 = "v0 == 1";
     // std::string e1 = "v2 > 5 || (v0 == 1) && v2";
     std::string e2 = "(v0 == 2 || v1 > 10)";
-    std::string e3 = "(v0 == 2 || (v1 > 10  && v2 < 3 || !v4 && true)) && v3 == -55.5";
+    std::string e3 = "(v0 == 2 || (v1 > 10  && v2 < 3 || !v4 && true)) && v3 == -55.5 || v1";
     // std::string e3 = "(v0 == 2 || (v1 > 10  && v2 > 3) || (v1 > 10  && v2 > 3)) && v3 == 0";
     std::string e4 = "(v0 == 2 || (v1 > 10  && v2 > 3)) && v3 == -15.000000001 && !v4";
     std::string e5 = "(v0 == 2 || (v1 > 10  && v2 > 3)) && v3 == -15.000000001 && v4";

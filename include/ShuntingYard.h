@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include <memory>
+#include <map>
 #include <unordered_map>
 #include <stack>
 #include "Exceptions.h"
@@ -24,7 +25,7 @@ public:
             operatorsMap[op->getSymbol()] = op;
         }
     }
-    NodePtr infixToTree(std::vector<std::string> infix)
+    NodePtr infixToTree(std::vector<std::string> infix, std::map<std::string, std::vector<NodePtr>>& deps)
     {
         std::stack<std::string> operatorStack;
         std::stack<NodePtr> operandStack;
@@ -82,7 +83,13 @@ public:
             else
             {
                 OperandPtr operand = std::make_shared<Operand>(token);
-                operandStack.push(std::make_shared<OperandNode>(operand, 1));
+                NodePtr operandNode = std::make_shared<OperandNode>(operand, 1);
+                if (operand->isVariable())
+                {
+                    DEBUG("Found variable " << token);
+                    deps[token].push_back(operandNode);
+                }
+                operandStack.push(operandNode);
             }
         }
 

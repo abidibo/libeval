@@ -10,18 +10,18 @@ using NodePtr = std::shared_ptr<Node>;
 class Node : public std::enable_shared_from_this<Node>
 {
 public:
-    Node(std::string symbol, int depth)
+    Node(const std::string& symbol, int depth)
     {
         this->symbol = symbol;
         this->depth = depth;
     }
-    Node(std::string symbol, NodePtr child, int depth)
+    Node(const std::string& symbol, NodePtr child, int depth)
     {
         this->symbol = symbol;
         this->leftChild = child;
         this->depth = depth;
     }
-    Node(std::string symbol, NodePtr leftChild, NodePtr rightChild, int depth)
+    Node(const std::string& symbol, NodePtr leftChild, NodePtr rightChild, int depth)
     {
         this->symbol = symbol;
         this->leftChild = leftChild;

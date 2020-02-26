@@ -19,7 +19,7 @@ public:
         BOOLEAN,
         VARIABLE
     };
-    Operand(std::string symbol)
+    Operand(const std::string& symbol)
     {
         this->symbol = symbol;
         if (symbol == "true" or symbol == "false")
@@ -41,6 +41,11 @@ public:
         }
         
     };
+
+    bool isVariable()
+    {
+        return type == Type::VARIABLE;
+    }
 
     std::string getSymbol()
     {
