@@ -35,7 +35,7 @@ public:
         else if (std::regex_match(symbol, Config::varRe))
         {
             type = Type::VARIABLE;
-            value = NA_VALUE;
+            value = NAN;
         }
         else
         {

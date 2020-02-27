@@ -11,10 +11,10 @@
 #  define DEBUG(x) do {} while (0)
 #endif
 
-constexpr static const double DOUBLE_MAX_VALUE = std::numeric_limits<double>::max(); // 1.79769e+308
-constexpr static const double DOUBLE_MIN_VALUE = -std::numeric_limits<double>::max();// 2.22507e-308, so we use -max as min value
-constexpr double NA_VALUE = -999999999;
-// #define NA_VALUE 999999999
+constexpr double DOUBLE_MAX_VALUE = std::numeric_limits<double>::max(); // 1.79769e+308
+constexpr double DOUBLE_MIN_VALUE = -std::numeric_limits<double>::max();// 2.22507e-308, so we use -max as min value
+constexpr double NA_VALUE = DOUBLE_MIN_VALUE; // @TODO check wrong comparison
+constexpr double NAN = std::numeric_limits<double>::quiet_NaN();
 
 struct Trunk
 {

@@ -3,21 +3,48 @@
 
 #include "Node.h"
 #include "Operator.h"
+#include <math.h>
 #include "Utils.h"
 
+/**
+ * Operator Node class 
+ * 
+ * A class which represents a node of type operator,
+ * an operation performed on children (or child if unary operator)
+ */
 class OperatorNode : public Node
 {
     public:
+        /**
+         * Binary operator constructor
+         * @param op: the operator instance
+         * @param leftChild: the left child node
+         * @param rightChild: the right child node
+         * @param depth: the node depth in the tree
+         */
         OperatorNode(OperatorPtr op, NodePtr leftChild, NodePtr rightChild, int depth) : Node(op->getSymbol(), leftChild, rightChild, depth)
         {
             this->op = op;
         };
-
+        /**
+         * Unary operator constructor
+         * @param op: the operator instance
+         * @param Child: the child node
+         * @param depth: the node depth in the tree
+         */
         OperatorNode(OperatorPtr op, NodePtr child, int depth) : Node(op->getSymbol(), child, depth)
         {
             this->op = op;
         };
-
+        /**
+         * Node value calculator
+         * 
+         * Calculates the node value, stores, and returns it.
+         * Calculation is done following at first the less deep branch,
+         * because in same cases the computation can end before resolving
+         * all the nodes, i.e AND false, OR true
+         * @return the calculated node value
+         */
         double calc ()
         {
             if (!rightChild)
@@ -31,7 +58,8 @@ class OperatorNode : public Node
                 if (leftChild->getDepth() <= rightChild->getDepth())
                 {
                     double in1 = leftChild->calc();
-                    if((res = op->calc(in1)) == NA_VALUE)
+                    res = op->calc(in1);
+                    if(isnan(res))
                     {
                         double in2 = rightChild->calc();
                         value = op->calc(in1, in2);
@@ -41,8 +69,8 @@ class OperatorNode : public Node
                 else
                 {
                     double in2 = rightChild->calc();
-                    int res = op->calc(in2);
-                    if((res = op->calc(in2)) == NA_VALUE)
+                    res = op->calc(in2);
+                    if(isnan(res))
                     {
                         double in1 = leftChild->calc();
                         value = op->calc(in1, in2);

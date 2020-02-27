@@ -25,7 +25,7 @@ public:
             operatorsMap[op->getSymbol()] = op;
         }
     }
-    NodePtr infixToTree(std::vector<std::string> infix, std::unordered_map<std::string, std::vector<NodePtr>>& deps)
+    NodePtr infixToTree(std::vector<std::string>& infix, std::unordered_map<std::string, std::vector<NodePtr>>& deps)
     {
         std::stack<std::string> operatorStack;
         std::stack<NodePtr> operandStack;

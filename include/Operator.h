@@ -129,13 +129,13 @@ public:
                 {
                     return 0;
                 }
-                return NA_VALUE;
+                return NAN;
             case Type::OR:
                 if (in)
                 {
                     return 1;
                 }
-                return NA_VALUE;
+                return NAN;
             case Type::EQ:
             case Type::GT:
             case Type::GTE:
@@ -143,7 +143,7 @@ public:
             case Type::LTE:
             default:
                 if (throw_) throw InvalidOperation();
-                else return NA_VALUE;
+                else return NAN;
         };
     };
 
