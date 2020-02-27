@@ -11,6 +11,11 @@
 #  define DEBUG(x) do {} while (0)
 #endif
 
+constexpr static const double DOUBLE_MAX_VALUE = std::numeric_limits<double>::max(); // 1.79769e+308
+constexpr static const double DOUBLE_MIN_VALUE = -std::numeric_limits<double>::max();// 2.22507e-308, so we use -max as min value
+constexpr double NA_VALUE = -999999999;
+// #define NA_VALUE 999999999
+
 struct Trunk
 {
     Trunk *prev;
@@ -36,7 +41,7 @@ inline void showTrunks(Trunk *p)
 
 // Recursive function to print binary tree
 // It uses inorder traversal
-inline void printTree(NodePtr root, Trunk *prev, bool isLeft)
+inline void printTree(NodePtr root, Trunk *prev, bool isLeft, bool showValue=false)
 {
     if (root == nullptr)
         return;
@@ -44,7 +49,7 @@ inline void printTree(NodePtr root, Trunk *prev, bool isLeft)
     std::string prev_str = "    ";
     Trunk *trunk = new Trunk(prev, prev_str);
 
-    printTree(root->getLeftChild(), trunk, true);
+    printTree(root->getLeftChild(), trunk, true, showValue);
 
     if (!prev)
         trunk->str = "---";
@@ -60,13 +65,20 @@ inline void printTree(NodePtr root, Trunk *prev, bool isLeft)
     }
 
     showTrunks(trunk);
-    std::cout << root->getSymbol() << " " << root->getDepth() << std::endl;
+    if (showValue)
+    {
+        std::cout << root->getSymbol() << " V(" << root->getValue() << ")" << std::endl;
+    }
+    else
+    {
+        std::cout << root->getSymbol() << " D(" << root->getDepth() << ")" << std::endl;
+    }
 
     if (prev)
         prev->str = prev_str;
     trunk->str = "   |";
 
-    printTree(root->getRightChild(), trunk, false);
+    printTree(root->getRightChild(), trunk, false, showValue);
 }
 
 #endif /* INCLUDE_UTILS_H_ */

@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <map>
+#include <unordered_set>
 #include <vector>
 #include "Utils.h"
 #include "Tokenizer.h"
@@ -29,28 +30,33 @@ public:
             std::vector<std::string>tokens;
             tokenizer.tokenize(expression, Config::operators, tokens);
 
-            DEBUG("Expression: " << expression << std::endl);
+            DEBUG(std::endl << "EXPRESSION" << std::endl);
+            DEBUG(expression << std::endl);
             #ifdef DEBUG_BUILD
                 for (auto t: tokens)
                 {
                     DEBUG("Token: " << t);
                 }
+                DEBUG("");
             #endif
             
             // build the tree
             ShuntingYard shuntingYard(Config::operators);
-            std::map<std::string, std::vector<NodePtr>> deps;
             tree = shuntingYard.infixToTree(tokens, deps);
-            DEBUG("\nTree\n");
+
+            DEBUG(std::endl << "TREE" << std::endl);
             DEBUG("Root: " << tree->getSymbol());
             printTree(tree, nullptr, false);
-            DEBUG("\nDependencies\n");
+            DEBUG(std::endl << "DEPENDENCIES" << std::endl);
             for (auto v: deps)
             {
-                DEBUG(v.first);
-                for (auto n: v.second) {
-                    DEBUG("\t" << n);
-                }
+                uninitializedVariables.insert(v.first);
+                #ifdef DEBUG_BUILD
+                    DEBUG(v.first);
+                    for (auto n: v.second) {
+                        DEBUG("\t" << n);
+                    }
+                #endif
             }
             return 0;
         }
@@ -62,15 +68,70 @@ public:
     };
 
     /**
+     * Sets the value of a variable
+     * the value is passed to all nodes which depend on such variable
+     * @param var: variable name
+     * @param val: variable value
+     * @return  0 on success
+     *         -1 if the tree was not yet built
+     *         -2 if the variable was not recognized
+     */
+    template<class A>
+    int setValue(std::string var, A val)
+    {
+        if (!tree)
+        {
+            DEBUG("Cannot set values of uncompiled tree nodes");
+            return -1;
+        }
+
+        if (deps.find(var) == deps.end())
+        {
+            DEBUG("Unrecognized variable");
+            return -2;
+        }
+
+        for (auto n: deps[var])
+        {
+            // cast to double
+            int res = std::dynamic_pointer_cast<OperandNode>(n)->setValue(double(val));
+            if (res > 0)
+            {
+                infected.insert(n);
+            }
+        }
+        uninitializedVariables.erase(var);
+        return 0;
+    }
+
+    /**
      * Calculates the expression result given the input variables values 
      * @param variables: the var->value dictionary
      */
-    bool operator()(std::map<std::string, std::string>& variables)
+    bool operator()()
     {
-        DEBUG("Evaluating");
+        exec();
+    }
+
+    bool exec()
+    {
+        if (uninitializedVariables.size())
+        {
+            DEBUG("There are still uninitialized variables");
+            throw UninitializedVariables();
+        }
+
+        DEBUG(std::endl << "EVALUATING" << std::endl);
+        double res = tree->calc();
+        printTree(tree, nullptr, false, true);
+        DEBUG("");
+        return res;
     }
 private:
-    NodePtr tree;
+    NodePtr tree = nullptr;
+    std::unordered_map<std::string, std::vector<NodePtr>> deps;
+    std::unordered_set<NodePtr> infected;
+    std::unordered_set<std::string> uninitializedVariables;
 };
 
 #endif /* INCLUDE_EVALUATOR_H_ */

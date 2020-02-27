@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include "Exceptions.h"
+#include "Utils.h"
 
 class Operator;
 using OperatorPtr = std::shared_ptr<Operator>;
@@ -93,8 +94,7 @@ public:
             : (precedence == op2->getPrecedence() ? 0 : -1);
     };
 
-    template<class R, class P1, class P2>
-    R calc(P1 in1, P2 in2)
+    double calc(double in1, double in2)
     {
         switch (this->type)
         {
@@ -118,22 +118,32 @@ public:
         };
     };
 
-    template<class R, class P>
-    R calc(P in)
+    double calc(double in, bool throw_=false)
     {
         switch (this->type)
         {
             case Type::NOT:
                 return !in;
             case Type::AND:
+                if (!in)
+                {
+                    return 0;
+                }
+                return NA_VALUE;
             case Type::OR:
+                if (in)
+                {
+                    return 1;
+                }
+                return NA_VALUE;
             case Type::EQ:
             case Type::GT:
             case Type::GTE:
             case Type::LT:
             case Type::LTE:
             default:
-                throw InvalidOperation();
+                if (throw_) throw InvalidOperation();
+                else return NA_VALUE;
         };
     };
 

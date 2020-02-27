@@ -28,6 +28,7 @@ public:
         this->rightChild = rightChild;
         this->depth = depth;
     }
+    virtual ~Node() = default;
     std::string getSymbol()
     {
         return symbol;
@@ -48,12 +49,18 @@ public:
     {
         return rightChild;
     }
+    double getValue()
+    {
+        return value;
+    }
+    virtual double calc() = 0;
 protected:
     std::string symbol;
     int depth;
     NodePtr parent;
     NodePtr leftChild;
     NodePtr rightChild;
+    double value;
 };
 
 #endif /* INCLUDE_NODE_H_ */

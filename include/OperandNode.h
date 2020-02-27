@@ -3,8 +3,12 @@
 
 #include <string>
 #include <regex>
+#include "Utils.h"
 #include "Node.h"
 #include "Operand.h"
+
+class OperandNode;
+using OperandNodePtr = std::shared_ptr<OperandNode>;
 
 
 class OperandNode : public Node
@@ -13,6 +17,17 @@ class OperandNode : public Node
         OperandNode(OperandPtr operand, int depth) : Node(operand->getSymbol(), depth)
         {
             this->operand = operand;    
+            value = this->operand->getValue();
+        }
+        int setValue(double val)
+        {
+            int res = operand->setValue(val);
+            value = operand->getValue();
+            return value;
+        }
+        double calc()
+        {
+            value = operand->getValue();
         }
     private:
         OperandPtr operand;
