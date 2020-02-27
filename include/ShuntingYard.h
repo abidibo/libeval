@@ -15,9 +15,20 @@
 #include "OperatorNode.h"
 #include "OperandNode.h"
 
+/**
+ * ShuntingYard implementation class
+ * 
+ * Implements the shunting yard algorithm in order to
+ * create an Abstract Syntax Tree
+ */
 class ShuntingYard
 {
 public:
+    /**
+     * Constructor
+     * 
+     * @param operators: operators considered as such
+     */
     ShuntingYard(std::vector<OperatorPtr> operators)
     {
         for (auto op: operators)
@@ -25,6 +36,16 @@ public:
             operatorsMap[op->getSymbol()] = op;
         }
     }
+    /**
+     * Tree generation 
+     * 
+     * Creates the tree given an ordered array of detected tokens in the expression,
+     * also keeps track of all variables dependencies in the form 
+     * variable => [Node1, Node2]
+     * 
+     * @param infix: the vector of tokens
+     * @param deps: the map of dependencies
+     */
     NodePtr infixToTree(std::vector<std::string>& infix, std::unordered_map<std::string, std::vector<NodePtr>>& deps)
     {
         std::stack<std::string> operatorStack;
@@ -104,6 +125,11 @@ public:
     }
 private:
     std::unordered_map<std::string, OperatorPtr> operatorsMap;
+    /**
+     * Adds an operator node to the operands stack
+     * @param stack: the operands stack
+     * @param op: the operator symbol
+     */
     void addNode(std::stack<NodePtr>& stack, std::string op)
     {
         if (operatorsMap[op]->isUnary())
@@ -122,9 +148,13 @@ private:
             stack.push(std::make_shared<OperatorNode>(operatorsMap[op], leftChild, rightChild, depth));
         }
     }
-    bool isOperator(std::string str)
+    /**
+     * Checks if a symbol (token) represents an operator 
+     * @param token
+     */
+    bool isOperator(std::string token)
     {
-        return operatorsMap.find(str) != operatorsMap.end();
+        return operatorsMap.find(token) != operatorsMap.end();
     }
 };
 

@@ -9,6 +9,12 @@
 class Operator;
 using OperatorPtr = std::shared_ptr<Operator>;
 
+/**
+ * Operator class
+ * 
+ * This is class is used to actually perform calculations
+ * An operator can be of many types, defined in the enum Type
+ */
 class Operator
 {
 public:
@@ -23,6 +29,17 @@ public:
         LTE,
         NOT
     };
+    /**
+     * Construct an operator instance of Type type
+     * 
+     * Operators can be:
+     * - unary/binary
+     * - right/left/both associative
+     * - have different precedence
+     * 
+     * @param type
+     * @throw InvalidOperation if a wrong type is passed
+     */
     Operator(Type type)
     {
         this->type = type;
@@ -87,6 +104,10 @@ public:
         return precedence;
     };
 
+    /**
+     * Compares the precedence of this operator agains the given one
+     * @param op2: the operator to compare
+     */
     short comparePrecendence(OperatorPtr op2)
     {
         return precedence > op2->getPrecedence()
@@ -94,6 +115,13 @@ public:
             : (precedence == op2->getPrecedence() ? 0 : -1);
     };
 
+    /**
+     * Performs the calculation of a binary operator
+     * @param in1 left input
+     * @param in2 right input
+     * @return operation result
+     * @throw InvalidOperation
+     */
     double calc(double in1, double in2)
     {
         switch (this->type)
@@ -118,6 +146,17 @@ public:
         };
     };
 
+    /**
+     * Performs the calculation of a unary or binary operator
+     * 
+     * If called on a binary operator it tryes to calculate the result with 
+     * just one operand if possible, i.e. AND false, OR true.
+     * If it cannot calculate the result, NAN is returned.
+     * 
+     * @param in input
+     * @return operation result
+     * @throw InvalidOperation
+     */
     double calc(double in, bool throw_=false)
     {
         switch (this->type)
@@ -147,6 +186,11 @@ public:
         };
     };
 
+    /**
+     * Returns a quoted string of the operator symbol to be used 
+     * in a regex
+     * @return quoted symbol
+     */
     std::string quotedSymbol()
     {
         switch (this->type)

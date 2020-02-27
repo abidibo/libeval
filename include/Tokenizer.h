@@ -7,9 +7,21 @@
 #include "Operator.h"
 #include "Config.h"
 
+/**
+ * Tokenizer class
+ * 
+ * Used to tokenize the expression string
+ */
 class Tokenizer
 {
 public:
+    /**
+     * Tokenizes the given expression
+     * @param infix: the infix expression
+     * @param operators: the allowed operators
+     * @param token: the vector it loads the tokens into
+     * @return 0
+     */
     int tokenize(const std::string& infix, std::vector<OperatorPtr> operators, std::vector<std::string>& tokens)
     {
         // std::regex words_regex("[a-zA-Z][a-zA-Z0-9]*|[0-9]?([0-9]*[.])?[0-9]+|&&|\\|\\||==|<=|>=|[<>\\!\\(\\)]"); 

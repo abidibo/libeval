@@ -16,6 +16,7 @@ constexpr double DOUBLE_MIN_VALUE = -std::numeric_limits<double>::max();// 2.225
 constexpr double NA_VALUE = DOUBLE_MIN_VALUE; // @TODO check wrong comparison
 constexpr double NAN = std::numeric_limits<double>::quiet_NaN();
 
+// starting from here just stuff used to log the AST to console
 struct Trunk
 {
     Trunk *prev;

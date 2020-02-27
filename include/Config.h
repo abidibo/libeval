@@ -6,6 +6,12 @@
 #include <regex>
 #include "Operator.h"
 
+/**
+ * Lib configuration
+ * 
+ * - regex used in order to tokenize the expression
+ * - allowed operator
+ */
 namespace Config {
     std::string numReString = "-?[0-9]?([0-9]*[.])?[0-9]+";
     std::string varReString = "[a-zA-Z][a-zA-Z0-9]*";

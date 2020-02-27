@@ -11,6 +11,12 @@
 class Operand;
 using OperandPtr = std::shared_ptr<Operand>;
 
+/**
+ * Operand class
+ * 
+ * Operands can be values (all converted to double), or variables
+ * which needs to be set
+ */
 class Operand
 {
 public:
@@ -19,6 +25,12 @@ public:
         VALUE,
         VARIABLE
     };
+    /**
+     * Constructor
+     * 
+     * Constructs the instance and detects the operand type
+     * @param symbol: the operand symbol (token)
+     */
     Operand(const std::string& symbol)
     {
         this->symbol = symbol;
@@ -44,6 +56,10 @@ public:
         }
     };
 
+    /**
+     * Check if the operand is of type variable
+     * @return true if it's a variable, false otherwise
+     */
     bool isVariable()
     {
         return type == Type::VARIABLE;
@@ -59,6 +75,16 @@ public:
         return value;
     }
 
+    /**
+     * Sets the operand value
+     * 
+     * This method is intended to be called upon variable operands,
+     * throws an exception if called on value operands
+     * @param val: the value to set
+     * @return 0 if the value is unchanged
+     *         1 if the value is changed
+     * @throw InvalidAssignment if called on a value operand
+     */
     int setValue(double val)
     {
         if (!isVariable())

@@ -12,6 +12,20 @@
 #include "Operator.h"
 #include "Config.h"
 
+/**
+ * Evaluator class
+ * 
+ * Class used to evaluete expressions. Usage:
+ *
+ * <pre>
+ *   Evaluator eval{};
+ *   eval.compile("v1 && (v2 > 8.8 || v3)");
+ *   eval.set("v1", true);
+ *   eval.set("v2", 10.0);
+ *   eval.set("v3", false);
+ *   bool res = eval.exec(); // true
+ * </pre>
+ */
 class Evaluator
 {
 public:
@@ -105,14 +119,18 @@ public:
     }
 
     /**
-     * Calculates the expression result given the input variables values 
-     * @param variables: the var->value dictionary
+     * Calculates the expression
+     * @return result
      */
     bool operator()()
     {
         exec();
     }
 
+    /**
+     * Calculates the expression
+     * @return result
+     */
     bool exec()
     {
         if (uninitializedVariables.size())
