@@ -136,7 +136,9 @@ private:
         {
             NodePtr leftChild = stack.top();
             stack.pop();
-            stack.push(std::make_shared<OperatorNode>(operatorsMap[op], leftChild, nullptr, leftChild->getDepth() + 1));
+            NodePtr opNode = std::make_shared<OperatorNode>(operatorsMap[op], leftChild, nullptr, leftChild->getDepth() + 1);
+            leftChild->setParent(opNode);
+            stack.push(opNode);
         }
         else
         {
@@ -145,7 +147,10 @@ private:
             NodePtr leftChild = stack.top();
             stack.pop();
             int depth = std::max(rightChild->getDepth(), leftChild->getDepth()) + 1;
-            stack.push(std::make_shared<OperatorNode>(operatorsMap[op], leftChild, rightChild, depth));
+            NodePtr opNode = std::make_shared<OperatorNode>(operatorsMap[op], leftChild, rightChild, depth);
+            leftChild->setParent(opNode);
+            rightChild->setParent(opNode);
+            stack.push(opNode);
         }
     }
     /**

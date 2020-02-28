@@ -34,12 +34,14 @@ class OperandNode : public Node
          * 
          * Sets the value of the operand, valid only for VARIABLE type operands
          * @param val: the value to set
+         * @return 0 if the value was unchanged
+         *         1 if the value is changed
          */
         int setValue(double val)
         {
             int res = operand->setValue(val);
             value = operand->getValue();
-            return value;
+            return res;
         }
         /**
          * Calculates the value of the node
@@ -49,6 +51,16 @@ class OperandNode : public Node
         double calc()
         {
             value = operand->getValue();
+        }
+
+        /**
+         * Useless for operand nodes 
+         * Operands does not perform calculations
+         * @return 1;
+         */
+        int update()
+        {
+            return 1;
         }
     private:
         OperandPtr operand;

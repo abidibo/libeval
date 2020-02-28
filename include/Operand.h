@@ -92,7 +92,6 @@ public:
             DEBUG("Cannot set a number operand " << symbol << " to a new value" << val);
             throw InvalidAssignment();
         }
-        DEBUG("Setting variable value " << symbol << " = " << val);
         if (val == value) return 0;
         value = val;
         return 1;

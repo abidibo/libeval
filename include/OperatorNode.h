@@ -81,6 +81,24 @@ class OperatorNode : public Node
 
             return value;
         }
+
+        /**
+         * The node updates its value reconsidering only the new
+         * infected child value and then looks at its new value:
+         * - if changed returns 1
+         * - if not changed returns 0
+         */
+        int update()
+        {
+            double newValue = rightChild
+                ? op->calc(leftChild->getValue(), rightChild->getValue())
+                : op->calc(leftChild->getValue());
+            if (newValue != value) {
+                value = newValue;
+                return 1;
+            }
+            return 0;
+        }
     private:
         OperatorPtr op;
 };

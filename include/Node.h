@@ -67,6 +67,10 @@ public:
     {
         return parent;
     }
+    void setParent(NodePtr parent)
+    {
+        this->parent = parent;
+    }
     NodePtr getLeftChild()
     {
         return leftChild;
@@ -94,12 +98,23 @@ public:
      * and calculate the current node value
      */
     virtual double calc() = 0;
+    /**
+     * Node value update from bottom
+     * 
+     * A NodeOperator class should implement this.
+     * The node updates its value without propagating a child calc,
+     * but only considering the children getValue, so that the
+     * not-infected branch is not calculated uselessly 
+     * - if changed returns 1
+     * - if not changed returns 0
+     */
+    virtual int update() = 0;
 protected:
     std::string symbol;
     int depth;
-    NodePtr parent;
-    NodePtr leftChild;
-    NodePtr rightChild;
+    NodePtr parent = nullptr;
+    NodePtr leftChild = nullptr;
+    NodePtr rightChild = nullptr;
     double value = NAN;
 };
 

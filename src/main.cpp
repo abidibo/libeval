@@ -34,12 +34,19 @@ int main(int argc, char **argv) {
     values["v2"] = -10.0;
     values["v3"] = -15.000000001;
     eval.setValues(values);
-    eval.setValue("v4", false);
+    eval.setValue("v4", true);
 
     // eval.setValue("v5", false);
     // eval2.compile(e2);
     bool res = eval();
     std::cout << "Result: " << res << std::endl;
+    bool res2 = eval();
+    std::cout << "Result 2: " << res2 << std::endl;
+    eval.setValue("v3", -15.000000002);
+    // eval.setValue("v4", false);
+
+    bool res3 = eval();
+    std::cout << "Result 3: " << res3 << std::endl;
     // bool testCorrect = 
     //     (eval.exec(e1, m) &&
     //      eval.exec(e2, m) && 

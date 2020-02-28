@@ -137,16 +137,16 @@ public:
      * Calculates the expression
      * @return result
      */
-    bool operator()()
+    double operator()()
     {
-        exec();
+        return exec();
     }
 
     /**
      * Calculates the expression
      * @return result
      */
-    bool exec()
+    double exec()
     {
         if (uninitializedVariables.size())
         {
@@ -154,10 +154,34 @@ public:
             throw UninitializedVariables();
         }
 
-        DEBUG(std::endl << "EVALUATING" << std::endl);
-        double res = tree->calc();
+        if (!infected.size())
+        {
+            DEBUG(std::endl << "USING CACHED RESULT" << std::endl);
+            return tree->getValue();
+        }
+
+        double res;
+        if (infected.size() > 1)
+        {
+            DEBUG(std::endl << "EVALUATING FROM ROOT" << std::endl);
+            res = tree->calc();
+        }
+        else
+        {
+            int rootDepth = tree->getDepth();
+            DEBUG(std::endl << "EVALUATING FROM INFECTED NODE" << std::endl);
+            auto node = std::move((*infected.begin()));
+            int res;
+            while(node->getDepth() < rootDepth and res > 0)
+            {
+                node = node->getParent();
+                res = node->update();
+            }
+            return tree->getValue();
+        }
+        
         printTree(tree, nullptr, false, true);
-        DEBUG("");
+        infected.clear();
         return res;
     }
 private:
