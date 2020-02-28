@@ -56,6 +56,8 @@ public:
             #endif
             
             // build the tree
+            // make sure deps are cleared
+            deps.clear();
             ShuntingYard shuntingYard(Config::operators);
             tree = shuntingYard.infixToTree(tokens, deps);
 
@@ -112,8 +114,6 @@ public:
             int res = std::dynamic_pointer_cast<OperandNode>(n)->setValue(double(val));
             if (res > 0)
             {
-
-                DEBUG("ADDING INFECTED NODE " << n->id);
                 infected.insert(n);
             }
         }
@@ -173,14 +173,14 @@ public:
             int rootDepth = tree->getDepth();
             auto node = std::move((*infected.begin()));
             DEBUG(std::endl << "EVALUATING FROM INFECTED NODE " << node->id << std::endl);
-            int res = 1;
-            while(node->getDepth() < rootDepth and res > 0)
+            int updateRes = 1;
+            while(node->getDepth() < rootDepth and updateRes > 0)
             {
                 node = node->getParent();
                 DEBUG("UPDATING NODE " << node->id);
-                res = node->update();
+                updateRes = node->update();
             }
-            return tree->getValue();
+            res = tree->getValue();
         }
         
         printTree(tree, nullptr, false, true);
