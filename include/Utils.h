@@ -3,6 +3,13 @@
 
 #include <iostream>
 #include <string>
+
+constexpr double DOUBLE_MAX_VALUE = std::numeric_limits<double>::max(); // 1.79769e+308
+constexpr double DOUBLE_MIN_VALUE = -std::numeric_limits<double>::max();// 2.22507e-308, so we use -max as min value
+constexpr double NA_VALUE = DOUBLE_MIN_VALUE; // @TODO check wrong comparison
+constexpr double NAN = std::numeric_limits<double>::quiet_NaN();
+
+// naeed NAN before this
 #include "Node.h"
 
 #ifdef DEBUG_BUILD
@@ -11,10 +18,6 @@
 #  define DEBUG(x) do {} while (0)
 #endif
 
-constexpr double DOUBLE_MAX_VALUE = std::numeric_limits<double>::max(); // 1.79769e+308
-constexpr double DOUBLE_MIN_VALUE = -std::numeric_limits<double>::max();// 2.22507e-308, so we use -max as min value
-constexpr double NA_VALUE = DOUBLE_MIN_VALUE; // @TODO check wrong comparison
-constexpr double NAN = std::numeric_limits<double>::quiet_NaN();
 
 // starting from here just stuff used to log the AST to console
 struct Trunk

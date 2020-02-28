@@ -5,6 +5,7 @@
 #include <memory>
 #include <map>
 #include <unordered_set>
+#include <unordered_map>
 #include <vector>
 #include "Utils.h"
 #include "Tokenizer.h"
@@ -115,6 +116,20 @@ public:
             }
         }
         uninitializedVariables.erase(var);
+        return 0;
+    }
+
+    template<class A>
+    int setValues(std::unordered_map<std::string,A> values)
+    {
+        int res;
+        for (auto v: values)
+        {
+            if ((res = setValue(v.first, v.second)) != 0)
+            {
+                return res;
+            }
+        }
         return 0;
     }
 

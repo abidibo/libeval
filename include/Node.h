@@ -100,7 +100,7 @@ protected:
     NodePtr parent;
     NodePtr leftChild;
     NodePtr rightChild;
-    double value;
+    double value = NAN;
 };
 
 #endif /* INCLUDE_NODE_H_ */

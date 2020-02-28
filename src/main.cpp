@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <unordered_map>
 #include <map>
 #include "Evaluator.h"
 #include <vector>
@@ -24,14 +25,17 @@ int main(int argc, char **argv) {
     m["v1"] = "15.55";
     m["v2"] = "-10";
     m["v3"] = "-15.000000001";
-    m["v4"] = "true";
+    m["v4"] = "false";
     m["v5"] = "false";
     eval.compile(e5);
-    eval.setValue("v0", 1.0);
-    eval.setValue("v1", 15.5);
-    eval.setValue("v2", -10.0);
-    eval.setValue("v3", -15.000000001);
-    eval.setValue("v4", true);
+    std::unordered_map<string, double> values;
+    values["v0"] = 1.0;
+    values["v1"] = 15.5;
+    values["v2"] = -10.0;
+    values["v3"] = -15.000000001;
+    eval.setValues(values);
+    eval.setValue("v4", false);
+
     // eval.setValue("v5", false);
     // eval2.compile(e2);
     bool res = eval();
