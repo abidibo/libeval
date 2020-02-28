@@ -9,7 +9,7 @@ A library which allows the computation of expressions in string format.
 - Whe only one leaf node is infected, calculation is performed from bottom to top and stops if it finds a node
 which doesn't change its value, otherwise it continues until the root node.
 
-![Example](tree.png)
+![Example](tree_new.png)
 
 ## Usage
 
