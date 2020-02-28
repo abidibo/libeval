@@ -94,7 +94,7 @@ public:
      *         -2 if the variable was not recognized
      */
     template<class A>
-    int setValue(std::string var, A val)
+    int setValue(const std::string& var, A val)
     {
         if (!tree)
         {
@@ -122,7 +122,7 @@ public:
     }
 
     template<class A>
-    int setValues(std::unordered_map<std::string,A> values)
+    int setValues(std::unordered_map<std::string,A>& values)
     {
         int res;
         for (auto v: values)
