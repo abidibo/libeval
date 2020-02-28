@@ -42,7 +42,8 @@ int main(int argc, char **argv) {
     std::cout << "Result: " << res << std::endl;
     bool res2 = eval();
     std::cout << "Result 2: " << res2 << std::endl;
-    eval.setValue("v3", -15.000000002);
+    //eval.setValue("v3", -15.000000002);
+    eval.setValue("v3", -15.02);
     // eval.setValue("v4", false);
 
     bool res3 = eval();

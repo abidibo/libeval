@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include "Console.h"
 
 constexpr double DOUBLE_MAX_VALUE = std::numeric_limits<double>::max(); // 1.79769e+308
 constexpr double DOUBLE_MIN_VALUE = -std::numeric_limits<double>::max();// 2.22507e-308, so we use -max as min value
@@ -43,6 +44,11 @@ inline void showTrunks(Trunk *p)
     std::cout << p->str;
 }
 
+Color::Modifier red(Color::FG_RED);
+Color::Modifier green(Color::FG_GREEN);
+Color::Modifier blue(Color::FG_BLUE);
+Color::Modifier def(Color::FG_DEFAULT);
+
 // Recursive function to print binary tree
 // It uses inorder traversal
 inline void printTree(NodePtr root, Trunk *prev, bool isLeft, bool showValue=false)
@@ -69,14 +75,7 @@ inline void printTree(NodePtr root, Trunk *prev, bool isLeft, bool showValue=fal
     }
 
     showTrunks(trunk);
-    if (showValue)
-    {
-        std::cout << root->getSymbol() << " V(" << root->getValue() << ")" << std::endl;
-    }
-    else
-    {
-        std::cout << root->getSymbol() << " D(" << root->getDepth() << ")" << std::endl;
-    }
+    std::cout << red << root->getSymbol() << def << " " << root->id << def << blue << " (" << root->getDepth() << ") " << green << root->getValue() << def << std::endl;
 
     if (prev)
         prev->str = prev_str;

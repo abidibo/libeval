@@ -112,6 +112,8 @@ public:
             int res = std::dynamic_pointer_cast<OperandNode>(n)->setValue(double(val));
             if (res > 0)
             {
+
+                DEBUG("ADDING INFECTED NODE " << n->id);
                 infected.insert(n);
             }
         }
@@ -169,12 +171,13 @@ public:
         else
         {
             int rootDepth = tree->getDepth();
-            DEBUG(std::endl << "EVALUATING FROM INFECTED NODE" << std::endl);
             auto node = std::move((*infected.begin()));
-            int res;
+            DEBUG(std::endl << "EVALUATING FROM INFECTED NODE " << node->id << std::endl);
+            int res = 1;
             while(node->getDepth() < rootDepth and res > 0)
             {
                 node = node->getParent();
+                DEBUG("UPDATING NODE " << node->id);
                 res = node->update();
             }
             return tree->getValue();

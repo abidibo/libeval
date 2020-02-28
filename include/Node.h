@@ -4,6 +4,8 @@
 #include <memory>
 #include <string>
 
+static int cnt = 0;
+
 class Node;
 using NodePtr = std::shared_ptr<Node>;
 
@@ -25,6 +27,7 @@ public:
      */ 
     Node(const std::string& symbol, int depth)
     {
+        this->id = ++cnt;
         this->symbol = symbol;
         this->depth = depth;
     }
@@ -36,6 +39,7 @@ public:
      */
     Node(const std::string& symbol, NodePtr child, int depth)
     {
+        this->id = ++cnt;
         this->symbol = symbol;
         this->leftChild = child;
         this->depth = depth;
@@ -49,6 +53,7 @@ public:
      */
     Node(const std::string& symbol, NodePtr leftChild, NodePtr rightChild, int depth)
     {
+        this->id = ++cnt;
         this->symbol = symbol;
         this->leftChild = leftChild;
         this->rightChild = rightChild;
@@ -109,6 +114,7 @@ public:
      * - if not changed returns 0
      */
     virtual int update() = 0;
+    int id;
 protected:
     std::string symbol;
     int depth;
