@@ -51,6 +51,7 @@ class OperandNode : public Node
         double calc()
         {
             value = operand->getValue();
+            return value;
         }
 
         /**
