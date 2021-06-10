@@ -8,6 +8,7 @@ static int cnt = 0;
 
 class Node;
 using NodePtr = std::shared_ptr<Node>;
+using WeakNodePtr = std::weak_ptr<Node>;
 
 /**
  * Node base class 
@@ -70,7 +71,7 @@ public:
     }
     NodePtr getParent()
     {
-        return parent;
+        return parent.lock();
     }
     void setParent(NodePtr parent)
     {
@@ -118,7 +119,7 @@ public:
 protected:
     std::string symbol;
     int depth;
-    NodePtr parent = nullptr;
+    WeakNodePtr parent;
     NodePtr leftChild = nullptr;
     NodePtr rightChild = nullptr;
     double value = NAN;

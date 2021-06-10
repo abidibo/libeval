@@ -30,12 +30,13 @@ public:
         re += "|"; // or
         re += Config::numReString;
         re += "|"; // or
-        re += "[//(//)]"; // open or close parenthesis
+        re += "[\\(\\)]"; // open or close parenthesis
         for (auto op: operators)
         {
             re += "|"; // or
             re += op->quotedSymbol(); // all operators
         }
+
         std::regex words_regex(re); 
         auto words_begin = std::sregex_iterator(infix.begin(), infix.end(), words_regex);
         auto words_end = std::sregex_iterator();

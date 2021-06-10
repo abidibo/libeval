@@ -14,7 +14,7 @@
  */
 namespace Config {
     std::string numReString = "-?[0-9]?([0-9]*[.])?[0-9]+";
-    std::string varReString = "[a-zA-Z][a-zA-Z0-9]*";
+    std::string varReString = "[a-zA-Z][a-zA-Z0-9_]*";
     std::regex numRe(numReString);
     std::regex varRe(varReString);
 
@@ -22,10 +22,10 @@ namespace Config {
         std::make_shared<Operator>(Operator::Type::AND),
         std::make_shared<Operator>(Operator::Type::OR),
         std::make_shared<Operator>(Operator::Type::EQ),
-        std::make_shared<Operator>(Operator::Type::LT),
         std::make_shared<Operator>(Operator::Type::LTE),
-        std::make_shared<Operator>(Operator::Type::GT),
+        std::make_shared<Operator>(Operator::Type::LT),
         std::make_shared<Operator>(Operator::Type::GTE),
+        std::make_shared<Operator>(Operator::Type::GT),
         std::make_shared<Operator>(Operator::Type::NOT)
     };
 }
