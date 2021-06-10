@@ -90,9 +90,14 @@ class OperatorNode : public Node
          */
         int update()
         {
-            double newValue = rightChild
-                ? op->calc(leftChild->getValue(), rightChild->getValue())
-                : op->calc(leftChild->getValue());
+            double newValue;
+            if (rightChild) {
+                double leftValue = isnan(leftChild->getValue()) ? leftChild->calc() : leftChild->getValue();
+                double rightValue = isnan(rightChild->getValue()) ? rightChild->calc() : rightChild->getValue();
+                newValue = op->calc(leftValue, rightValue);
+            } else {
+                newValue = op->calc(leftChild->getValue());
+            }
             if (newValue != value) {
                 value = newValue;
                 return 1;

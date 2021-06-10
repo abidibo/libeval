@@ -65,4 +65,29 @@ int main(int argc, char **argv) {
     eval.setValue("v3", 2);
     res = eval();
     DEBUG("Res: " << res);
+
+    /*
+    std::string expr = "KeyOff && (EngineSpeed <= 100) && (ActualEngine_PercTorque == 1500)";
+    Evaluator eval{};
+    eval.compile(expr);
+
+    // calc from root
+    DEBUG(green << "\nComplete calc from tree root" << def);
+    std::unordered_map<string, double> values;
+    values["KeyOff"] = 0;
+    values["EngineSpeed"] = 450;
+    values["ActualEngine_PercTorque"] = 1500;
+    eval.setValues(values);
+    bool res = eval();
+    DEBUG (std::endl << "RESULT" << std::endl);
+    DEBUG("Res: " << res);
+    DEBUG(green << "\nExecute again without changing anything" << def);
+    res = eval();
+    DEBUG("Res: " << res);
+    DEBUG(green << "\nExecute again changing one var" << def);
+    DEBUG("Every node from infected one up to root should be calculated again with this change");
+    eval.setValue("KeyOff", 1);
+    res = eval();
+    DEBUG("Res: " << res);
+    */
 }
