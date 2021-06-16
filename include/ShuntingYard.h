@@ -132,6 +132,16 @@ private:
      */
     void addNode(std::stack<NodePtr>& stack, std::string op)
     {
+        if (op == "(") {
+            DEBUG("Unbalanced left parantheses");
+            throw InvalidExpression();
+        }
+
+        if (operatorsMap[op] == nullptr) {
+            DEBUG("Invalid operator " << op);
+            throw InvalidExpression();
+        }
+
         if (operatorsMap[op]->isUnary())
         {
             NodePtr leftChild = stack.top();
