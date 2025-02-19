@@ -39,6 +39,14 @@ The calculation starts from the infected node and only performs its parent updat
 
 ![Example](bottom.png)
 
+## Build:
+
+```
+$ sudo apt install liblog4cplus-dev
+$ cmake .
+$ make
+```
+
 ## Resources:
 
 - [https://en.wikipedia.org/wiki/Shunting-yard_algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
