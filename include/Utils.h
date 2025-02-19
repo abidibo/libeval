@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <limits>
 #include "Console.h"
 
 constexpr double DOUBLE_MAX_VALUE = std::numeric_limits<double>::max(); // 1.79769e+308
